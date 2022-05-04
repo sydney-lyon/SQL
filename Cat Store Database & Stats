@@ -1,0 +1,21 @@
+CREATE TABLE cat_store (id INTEGER PRIMARY KEY, name TEXT, color TEXT, price INTEGER, aisle INTEGER);
+
+INSERT INTO cat_store VALUES (1, "fatty", "orange", 0.99, 2);
+INSERT INTO cat_store VALUES (2, "sammie", "grey", 100.00, 5);
+INSERT INTO cat_store VALUES (3, "cam", "white", 1000.00, 1);
+INSERT INTO cat_store VALUES (4, "syd", "dirt", 1.00, 1);
+INSERT INTO cat_store VALUES (5, "mr. business", "grey", 6.69, 3);
+INSERT INTO cat_store VALUES (6, "olivier", "pink", 4.20, 4);
+INSERT INTO cat_store VALUES (7, "dad", "naked", 420.69, 3);
+INSERT INTO cat_store VALUES (8, "gaz", "black", 3.50, 2);
+INSERT INTO cat_store VALUES (9, "frank", "white", 9.99, 4);
+INSERT INTO cat_store VALUES (10, "susan", "green", 54.78, 5);
+INSERT INTO cat_store VALUES (11, "doja cat", "gold", 25.75, 2);
+INSERT INTO cat_store VALUES (12, "lil beans", "pink", 75.00, 1);
+INSERT INTO cat_store VALUES (13, "kahn", "aqua", .50, 3);
+INSERT INTO cat_store VALUES (14, "mr punkins", "yellow", 12.99, 5);
+INSERT INTO cat_store VALUES (15, "toilet boy", "orange", 67.50, 1);
+
+SELECT * FROM cat_store WHERE aisle <3 ORDER BY price desc;
+
+
