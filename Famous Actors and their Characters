@@ -1,0 +1,80 @@
+/* Famous TV Characters */
+
+CREATE TABLE actors (id INTEGER PRIMARY KEY,
+name TEXT,
+birthdate TEXT,
+birthplace TEXT);
+
+INSERT into actors (name, birthdate, birthplace)
+VALUES ("Jerry Seinfeld", "04/29/1954", "Brooklyn NY");
+INSERT into actors (name, birthdate, birthplace)
+VALUES ("Julia Louis-Dreyfus", "01/13/1961", "Manhattan NY");
+INSERT into actors (name, birthdate, birthplace)
+VALUES ("Millie Bobby Brown", "02/19/2004", "Marbella Spain");
+INSERT into actors (name, birthdate, birthplace)
+VALUES ("Peter Dinklage", "06/11/1969", "Jersey Shore NJ");
+INSERT into actors (name, birthdate, birthplace)
+VALUES ("Jason Bateman", "01/14/1969", "Rye NY");
+INSERT into actors (name, birthdate, birthplace)
+VALUES ("Will Arnett", "05/04/1970", "Toronto Canada");
+
+CREATE TABLE characters (id INTEGER PRIMARY KEY,
+actor_name TEXT,
+character_name TEXT);
+
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Jerry Seinfeld", "Jerry Seinfeld");
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Julia Louis-Dreyfus", "Elaine Benes");
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Julia Louis-Dreyfus", "Selina Meyer");
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Millie Bobby Brown", "11");
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Peter Dinklage", "Tyrion Lannister");
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Jason Bateman", "Marty Byrd");
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Jason Bateman", "Michael Bluth");
+INSERT INTO characters (actor_name, character_name)
+VALUES ("Will Arnett", "Gob Bluth");
+
+
+
+CREATE TABLE shows (id INTEGER PRIMARY KEY,
+character TEXT,
+show TEXT,
+seasons INTEGER,
+network TEXT);
+
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("Jerry Seinfeld", "Seinfeld", 9, "NBC");
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("Elaine Benes", "Seinfeld", 9, "NBC");
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("Selina Meyer", "VEEP", 7, "HBO");
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("11", "Stranger Things", 4, "Netflix");
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("Tyrion Lannister", "Game of Thrones", 8, "HBO");
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("Marty Byrd", "Ozark", 4, "Netflix");
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("Michael Bluth", "Arrested Development", 5, "FOX");
+INSERT INTO shows (character, show, seasons, network)
+VALUES ("Gob Bluth", "Arrested Development", 5, "FOX");
+
+
+SELECT * FROM actors;
+
+
+SELECT a.actor_name, a.character_name FROM shows
+JOIN characters a
+ON shows.character = a.character_name;
+
+
+SELECT a.actor_name, show, seasons, network FROM shows
+JOIN characters a
+ON shows.character = a.character_name;
+
+
