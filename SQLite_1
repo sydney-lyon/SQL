@@ -45,3 +45,4 @@ WHERE quantity > 2
 SELECT distinct product, quantity, location
 FROM BIT_DB.FebSales
 WHERE location like '%Los Angeles%'
+GROUP BY product
