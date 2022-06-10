@@ -1,0 +1,140 @@
+# For this project I downloaded the chinook dataset from Charlotte Chaze's Break into Tech workshop.
+# I then answered the following 14 recommended sample questions using SQL. Followed by questions of my own.
+
+
+## 1. Show Customers (their full names, customer ID, and country) who are not in the US. 
+SELECT customerID, FirstName, LastName, Country 
+FROM chinook.customers
+WHERE country != 'USA'
+ORDER BY customerId asc
+
+## 2. Show only the Customers from Brazil.
+SELECT * 
+FROM chinook.customers
+WHERE country = 'Brazil'
+ORDER BY CustomerID asc
+
+## 3. Find the Invoices of customers who are from Brazil. 
+## The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+SELECT invoiceId, customerId, customers.firstname, customers.lastname, invoiceDate, billingCountry 
+FROM chinook.invoices
+JOIN chinook.customers 
+ON customers.customerId = invoices.customerId
+WHERE BillingCountry = 'Brazil'
+ORDER BY invoiceId asc
+
+## 4. Show the Employees who are Sales Agents.
+SELECT * 
+FROM chinook.employees
+WHERE title = 'Sales Support Agent'
+ORDER BY employeeId asc
+
+## 5. Find a unique/distinct list of billing countries from the Invoice table.
+SELECT DISTINCT billingCountry 
+FROM chinook.invoices
+
+## 6. Provide a query that shows the invoices associated with each sales agent. 
+## The resulting table should include the Sales Agent's full name.
+SELECT employees.firstName, employees.lastName, invoices.invoiceId 
+FROM chinook.employees
+JOIN chinook.customers
+ON customers.supportRepId = employees.employeeId
+JOIN chinook.invoices
+ON invoices.customerId = customers.customerId
+
+## 7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT invoices.total, customers.firstName as CustomerFirstName, customers.lastName as CustomerLastName, customers.country, 
+employees.firstName as EmployeeFirstName, employees.lastName as EmployeeLastName 
+FROM chinook.customers
+JOIN chinook.employees
+ON customers.supportRepId = employees.employeeId
+JOIN chinook.invoices
+ON invoices.customerId = customers.customerId
+ORDER BY invoices.total desc
+
+## 8. How many Invoices were there in 2009?
+SELECT COUNT(*) FROM chinook.invoices
+WHERE invoiceDate LIKE '%2009%'
+
+## 9. What are the total sales for 2009?
+SELECT SUM(total)
+FROM chinook.invoices
+WHERE invoiceDate LIKE '%2009%'
+
+## 10. Write a query that includes the purchased track name with each invoice line id.
+SELECT track.name, item.invoiceLineId 
+FROM chinook.invoice_Items item
+JOIN chinook.tracks track
+ON item.trackId = track.trackId
+
+## 11. Write a query that includes the purchased track name AND artist name with each invoice line item.
+SELECT track.name, track.composer, item.invoiceLineId 
+FROM chinook.invoice_Items item
+JOIN chinook.tracks track
+ON item.trackId = track.trackId
+
+## 12. Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT tracks.name as Song, albums.title as Album, media.name as Media, genre.name as Genre 
+FROM chinook.tracks tracks
+JOIN chinook.albums albums
+ON tracks.albumId = albums.albumId
+JOIN chinook.media_types media
+ON media.mediaTypeID = tracks.mediaTypeId
+JOIN chinook.genres genre
+ON genre.genreId = tracks.genreId
+
+## 13. Show the total sales made by each sales agent.
+SELECT employee.firstName as 'Employee First Name', employee.lastName as 'Employee Last Name', ROUND(SUM(invoice.total)) as 'Rounded Total' 
+FROM chinook.employees employee
+JOIN chinook.customers customer
+ON customer.supportRepId = employee.employeeID
+JOIN chinook.invoices invoice
+ON invoice.customerId = customer.customerId
+WHERE employee.title = 'Sales Support Agent'
+GROUP BY employee.FirstName
+
+## 14. Which sales agent made the most in sales in 2009?
+SELECT employee.FirstName, employee.LastName, ROUND(SUM(invoice.total),2) as '2009 Sales' 
+FROM chinook.employees as 'employee'
+JOIN chinook.customers customer
+ON customer.supportRepId = employee.employeeID
+JOIN chinook.invoices invoice
+ON invoice.customerId = customer.customerId
+WHERE employee.title = 'Sales Support Agent'
+AND invoice.invoiceDate like '2009%'
+GROUP BY employee.FirstName
+ORDER BY (ROUND(SUM(invoice.total),2)) desc limit 1;
+
+
+#### My additional questions:
+
+
+## Which Sales Support Agents helped each guest?
+SELECT customers.firstName as 'Customer First Name', customers.lastName as 'Customer Last Name', 
+employee.firstName as 'Employee First Name', employee.lastName as 'Employee Last Name' 
+FROM chinook.customers
+JOIN chinook.employees employee
+ON customers.supportRepId = employee.employeeId
+WHERE employee.Title = 'Sales Support Agent' 
+ORDER by customers.LastName asc
+
+## What tracks are availabe on each playlist? Including album and artist.
+SELECT playlists.name as 'Playlist', track.name as 'Track', album.title as 'Album', track.composer as 'Artist' 
+FROM chinook.playlists
+JOIN chinook.playlist_track pt
+ON pt.playlistiD = playlists.playlistiD
+JOIN chinook.tracks track
+ON track.trackId = pt.trackId
+JOIN chinook.albums album
+ON album.albumId = track.albumId
+ORDER by playlist asc
+
+## How many tracks are on each album?
+SELECT albums.title as 'Album', artist.name as 'Artist', COUNT(track.name) as 'Tracks' 
+FROM chinook.albums
+JOIN chinook.tracks track
+ON track.albumId = albums.albumId
+JOIN chinook.artists artist
+ON artist.artistId = albums.artistId
+GROUP by albums.albumId
+ORDER by artist.name asc
